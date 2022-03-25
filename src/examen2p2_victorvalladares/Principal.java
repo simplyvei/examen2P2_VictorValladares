@@ -5,6 +5,10 @@
  */
 package examen2p2_victorvalladares;
 
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author valla
@@ -28,9 +32,9 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        pgr_tiempo = new javax.swing.JProgressBar();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        jt_planetas = new javax.swing.JTree();
         bt_colisionar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         label_p1 = new javax.swing.JLabel();
@@ -40,21 +44,21 @@ public class Principal extends javax.swing.JFrame {
         label_p2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         cb_cientifico = new javax.swing.JComboBox<>();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        ch_publicos = new javax.swing.JCheckBox();
         tf_nombre = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        bt_crear = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 530, 40));
+        jPanel1.add(pgr_tiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 530, 40));
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Planetas");
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane1.setViewportView(jTree1);
+        jt_planetas.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane1.setViewportView(jt_planetas);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 170, 300));
 
@@ -76,24 +80,46 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel1.add(cb_cientifico, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 200, 30));
 
-        jCheckBox1.setText("Publicos");
-        jPanel1.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, -1, -1));
+        ch_publicos.setText("Publicos");
+        jPanel1.add(ch_publicos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, -1, -1));
         jPanel1.add(tf_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 200, -1));
 
         jLabel5.setText("Cientifico");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, -1, -1));
 
-        jButton1.setText("Crear Cientifico");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 370, 200, -1));
+        bt_crear.setText("Crear Cientifico");
+        bt_crear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_crearMouseClicked(evt);
+            }
+        });
+        jPanel1.add(bt_crear, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 370, 200, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 560, 440));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void bt_crearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_crearMouseClicked
+        if (tf_nombre.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "No ha puesto un nombre para el cientifico");
+        }else{
+            String nombre = tf_nombre.getText();
+            Cientifico cientifico = new Cientifico(nombre);
+            cientificos.add(cientifico);
+            JOptionPane.showMessageDialog(null, "Se ha creado el cientifico");
+            tf_nombre.setText(null);
+            actualizarCB();
+        }
+    }//GEN-LAST:event_bt_crearMouseClicked
+
+    public void actualizarCB(){
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel)cb_cientifico.getModel();
+        modelo.removeAllElements();
+        for (Cientifico c : cientificos)
+            modelo.addElement(c);
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -128,21 +154,22 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_colisionar;
+    private javax.swing.JButton bt_crear;
     private javax.swing.JComboBox<String> cb_cientifico;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox ch_publicos;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTree jTree1;
+    private javax.swing.JTree jt_planetas;
     private javax.swing.JLabel label_p1;
     private javax.swing.JLabel label_p2;
+    private javax.swing.JProgressBar pgr_tiempo;
     private javax.swing.JTextField tf_nombre;
     // End of variables declaration//GEN-END:variables
+    ArrayList <Cientifico> cientificos = new ArrayList ();
 }

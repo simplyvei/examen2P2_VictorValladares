@@ -190,8 +190,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_ch_publicosItemStateChanged
 
     private void cb_cientificoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_cientificoItemStateChanged
-        
-        if(evt.getStateChange()== 2){
+        if(evt.getStateChange() == 2){
             cientificoArbol();
         }
         if (ch_publicos.isSelected()){
@@ -223,16 +222,20 @@ public class Principal extends javax.swing.JFrame {
         if(planeta1 == null || planeta2 == null){
             JOptionPane.showMessageDialog(null, "No hay planetas para colisionar");
         }else{
-            double distanciax = Math.pow(planeta1.getX() - planeta2.getX(), 2); 
-            double distanciay = Math.pow(planeta1.getY() - planeta2.getY(), 2);
-            double total = distanciax + distanciay;
-            double distancia = Math.sqrt(total);
-            int distancia1 = (int) Math.round(distancia);
-            pgr_tiempo.setMaximum(distancia1); 
-            Cientifico cientifico = (Cientifico) cb_cientifico.getSelectedItem();
-            hilo = new HiloProgressBar(pgr_tiempo, planeta1, planeta2, cientifico);
-            hilo.start();
-            guardarCientifico();
+            try{
+                double distanciax = Math.pow(planeta1.getX() - planeta2.getX(), 2); 
+                double distanciay = Math.pow(planeta1.getY() - planeta2.getY(), 2);
+                double total = distanciax + distanciay;
+                double distancia = Math.sqrt(total);
+                int distancia1 = (int) Math.round(distancia);
+                pgr_tiempo.setMaximum(distancia1); 
+                Cientifico cientifico = (Cientifico) cb_cientifico.getSelectedItem();
+                hilo = new HiloProgressBar(pgr_tiempo, planeta1, planeta2, cientifico);
+                hilo.start();
+                guardarCientifico();
+            }catch (Exception ex){
+                JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
+            }
         }
         
     }//GEN-LAST:event_bt_colisionarMouseClicked
@@ -261,12 +264,12 @@ public class Principal extends javax.swing.JFrame {
             DefaultTreeModel modelo = (DefaultTreeModel)jt_planetas.getModel();
             DefaultMutableTreeNode root = new DefaultMutableTreeNode("Planetas");
             root.removeAllChildren();
-        for (Planeta planeta : cientifico.getPlanetas()){
-            DefaultMutableTreeNode hojaPlaneta = new DefaultMutableTreeNode(planeta);
-            root.add(hojaPlaneta);
-        }
-        
-        modelo.setRoot(root);
+            for (Planeta planeta : cientifico.getPlanetas()){
+                DefaultMutableTreeNode hojaPlaneta = new DefaultMutableTreeNode(planeta);
+                root.add(hojaPlaneta);
+            }
+
+            modelo.setRoot(root);
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error: El cientifico no tiene planetas");
         }

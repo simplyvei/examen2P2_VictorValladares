@@ -5,6 +5,7 @@
  */
 package examen2p2_victorvalladares;
 
+import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -15,12 +16,13 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+
 /**
  *
  * @author valla
  */
 public class Principal extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form Principal
      */
@@ -51,6 +53,8 @@ public class Principal extends javax.swing.JFrame {
         planetas.add(neptuno);
         
     }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -112,6 +116,11 @@ public class Principal extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 170, 300));
 
         bt_colisionar.setText("Colisionar");
+        bt_colisionar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_colisionarMouseClicked(evt);
+            }
+        });
         jPanel1.add(bt_colisionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 80, 120, 50));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 200, 20));
         jPanel1.add(label_p1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 200, 40));
@@ -203,6 +212,25 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_item_planeta2ActionPerformed
 
+    private void bt_colisionarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_colisionarMouseClicked
+        if(planeta1 == null || planeta2 == null){
+            JOptionPane.showMessageDialog(null, "No hay planetas para colisionar");
+        }else{
+            double distanciax = Math.pow(planeta1.getX() - planeta2.getX(), 2); 
+            double distanciay = Math.pow(planeta1.getY() - planeta2.getY(), 2);
+            double total = distanciax + distanciay;
+            double distancia = Math.sqrt(total);
+            int distancia1 = (int) Math.round(distancia);
+            pgr_tiempo.setMaximum(distancia1); 
+            Cientifico cientifico = (Cientifico) cb_cientifico.getSelectedItem();
+            hilo = new HiloProgressBar(pgr_tiempo, planeta1, planeta2, cientifico);
+            
+
+            hilo.start();
+        }
+        
+    }//GEN-LAST:event_bt_colisionarMouseClicked
+
     public void actualizarCB(){
         DefaultComboBoxModel modelo = (DefaultComboBoxModel)cb_cientifico.getModel();
         modelo.removeAllElements();
@@ -257,7 +285,6 @@ public class Principal extends javax.swing.JFrame {
                 cientificos.add(cientifico);
         }catch(Exception ex){
             System.out.println(ex);
-            JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
         }
     }
     
@@ -320,4 +347,5 @@ public class Principal extends javax.swing.JFrame {
     ArrayList <Planeta> planetas = new ArrayList ();
     Planeta planeta1;
     Planeta planeta2;
+    HiloProgressBar hilo;
 }

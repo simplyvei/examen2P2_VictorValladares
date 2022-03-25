@@ -8,6 +8,8 @@ package examen2p2_victorvalladares;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -20,8 +22,29 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        planetasBase();
     }
 
+    public void planetasBase(){
+        Terrestre mercurio = new Terrestre ("Mercurio",5000,13000,400,300);
+        planetas.add(mercurio);
+        Terrestre venus = new Terrestre ("Venus",100000,15000,640,260);
+        planetas.add(venus);
+        Terrestre tierra = new Terrestre ("Tierra",140000,17000,760,570);
+        planetas.add(tierra);
+        Terrestre marte = new Terrestre ("Marte",90000,12000,360,360);
+        planetas.add(marte);
+        Gaseoso jupiter = new Gaseoso ("Jupiter",400000,40000,340,310);
+        planetas.add(jupiter);
+        Gaseoso saturno = new Gaseoso ("Saturno",300000,30000,560,450);
+        planetas.add(saturno);
+        Gaseoso urano = new Gaseoso ("Urano",200000,20000,670,690);
+        planetas.add(urano);
+        Gaseoso neptuno = new Gaseoso ("Neptuno",200000,20000,840,900);
+        planetas.add(neptuno);
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -63,7 +86,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 170, 300));
 
         bt_colisionar.setText("Colisionar");
-        jPanel1.add(bt_colisionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, 120, 50));
+        jPanel1.add(bt_colisionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 80, 120, 50));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 200, 20));
         jPanel1.add(label_p1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 200, 40));
 
@@ -81,6 +104,11 @@ public class Principal extends javax.swing.JFrame {
         jPanel1.add(cb_cientifico, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 200, 30));
 
         ch_publicos.setText("Publicos");
+        ch_publicos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ch_publicosItemStateChanged(evt);
+            }
+        });
         jPanel1.add(ch_publicos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, -1, -1));
         jPanel1.add(tf_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 200, -1));
 
@@ -113,11 +141,25 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bt_crearMouseClicked
 
+    private void ch_publicosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ch_publicosItemStateChanged
+        
+    }//GEN-LAST:event_ch_publicosItemStateChanged
+
     public void actualizarCB(){
         DefaultComboBoxModel modelo = (DefaultComboBoxModel)cb_cientifico.getModel();
         modelo.removeAllElements();
         for (Cientifico c : cientificos)
             modelo.addElement(c);
+    }
+    
+    public void actualizarArbol(){
+        DefaultTreeModel modelo = (DefaultTreeModel)jt_planetas.getModel();
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Planetas");
+        for (Carro carro : carros){
+            DefaultMutableTreeNode hojaCarro = new DefaultMutableTreeNode(carro);
+            root.add(hojaCarro);
+        }
+        modelo.setRoot(root);
     }
     
     public static void main(String args[]) {
@@ -172,4 +214,5 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField tf_nombre;
     // End of variables declaration//GEN-END:variables
     ArrayList <Cientifico> cientificos = new ArrayList ();
+    ArrayList <Planeta> planetas = new ArrayList ();
 }

@@ -54,6 +54,9 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pop_up = new javax.swing.JPopupMenu();
+        item_planeta1 = new javax.swing.JMenuItem();
+        item_planeta2 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         pgr_tiempo = new javax.swing.JProgressBar();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -72,6 +75,22 @@ public class Principal extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         bt_crear = new javax.swing.JButton();
 
+        item_planeta1.setText("Planeta 1");
+        item_planeta1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                item_planeta1ActionPerformed(evt);
+            }
+        });
+        pop_up.add(item_planeta1);
+
+        item_planeta2.setText("Planeta 2");
+        item_planeta2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                item_planeta2ActionPerformed(evt);
+            }
+        });
+        pop_up.add(item_planeta2);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -81,6 +100,7 @@ public class Principal extends javax.swing.JFrame {
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Planetas");
         jt_planetas.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jt_planetas.setComponentPopupMenu(pop_up);
         jScrollPane1.setViewportView(jt_planetas);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 170, 300));
@@ -101,6 +121,11 @@ public class Principal extends javax.swing.JFrame {
         jLabel4.setText("Planeta 1");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 60, -1, -1));
 
+        cb_cientifico.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cb_cientificoItemStateChanged(evt);
+            }
+        });
         jPanel1.add(cb_cientifico, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 240, 200, 30));
 
         ch_publicos.setText("Publicos");
@@ -142,8 +167,34 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_crearMouseClicked
 
     private void ch_publicosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ch_publicosItemStateChanged
-        
+        if (ch_publicos.isSelected()){
+            publicoArbol();
+        }
     }//GEN-LAST:event_ch_publicosItemStateChanged
+
+    private void cb_cientificoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_cientificoItemStateChanged
+        cientificoArbol();
+    }//GEN-LAST:event_cb_cientificoItemStateChanged
+
+    private void item_planeta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_planeta1ActionPerformed
+        try{
+            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)jt_planetas.getLastSelectedPathComponent();
+            planeta1 = (Planeta)selectedNode.getUserObject();
+            label_p1.setText(planeta1.toString());
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
+        }
+    }//GEN-LAST:event_item_planeta1ActionPerformed
+
+    private void item_planeta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_planeta2ActionPerformed
+        try{
+            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)jt_planetas.getLastSelectedPathComponent();
+            planeta2 = (Planeta)selectedNode.getUserObject();
+            label_p2.setText(planeta2.toString());
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
+        }
+    }//GEN-LAST:event_item_planeta2ActionPerformed
 
     public void actualizarCB(){
         DefaultComboBoxModel modelo = (DefaultComboBoxModel)cb_cientifico.getModel();
@@ -152,14 +203,32 @@ public class Principal extends javax.swing.JFrame {
             modelo.addElement(c);
     }
     
-    public void actualizarArbol(){
+    public void publicoArbol(){
         DefaultTreeModel modelo = (DefaultTreeModel)jt_planetas.getModel();
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Planetas");
-        for (Carro carro : carros){
-            DefaultMutableTreeNode hojaCarro = new DefaultMutableTreeNode(carro);
-            root.add(hojaCarro);
+        for (Planeta planeta : planetas){
+            DefaultMutableTreeNode hojaPlaneta = new DefaultMutableTreeNode(planeta);
+            root.add(hojaPlaneta);
         }
         modelo.setRoot(root);
+    }
+    
+    public void cientificoArbol(){
+        try{
+        Cientifico cientifico = (Cientifico) cb_cientifico.getSelectedItem();
+        
+        DefaultTreeModel modelo = (DefaultTreeModel)jt_planetas.getModel();
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Planetas");
+        root.removeAllChildren();
+        for (Planeta planeta : cientifico.getPlanetas()){
+            DefaultMutableTreeNode hojaPlaneta = new DefaultMutableTreeNode(planeta);
+            root.add(hojaPlaneta);
+        }
+        
+        modelo.setRoot(root);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error: El cientifico no tiene planetas");
+        }
     }
     
     public static void main(String args[]) {
@@ -199,6 +268,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton bt_crear;
     private javax.swing.JComboBox<String> cb_cientifico;
     private javax.swing.JCheckBox ch_publicos;
+    private javax.swing.JMenuItem item_planeta1;
+    private javax.swing.JMenuItem item_planeta2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -211,8 +282,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel label_p1;
     private javax.swing.JLabel label_p2;
     private javax.swing.JProgressBar pgr_tiempo;
+    private javax.swing.JPopupMenu pop_up;
     private javax.swing.JTextField tf_nombre;
     // End of variables declaration//GEN-END:variables
     ArrayList <Cientifico> cientificos = new ArrayList ();
     ArrayList <Planeta> planetas = new ArrayList ();
+    Planeta planeta1;
+    Planeta planeta2;
 }

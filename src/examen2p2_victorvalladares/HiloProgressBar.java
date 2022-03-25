@@ -1,5 +1,7 @@
 package examen2p2_victorvalladares;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
@@ -62,4 +64,5 @@ public class HiloProgressBar extends Thread{
             }
         }
     }
+    
 }

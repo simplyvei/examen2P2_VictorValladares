@@ -190,7 +190,10 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_ch_publicosItemStateChanged
 
     private void cb_cientificoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_cientificoItemStateChanged
-        cientificoArbol();
+        
+        if(evt.getStateChange()== 2){
+            cientificoArbol();
+        }
         if (ch_publicos.isSelected()){
             ch_publicos.setSelected(false);
         }
@@ -229,6 +232,7 @@ public class Principal extends javax.swing.JFrame {
             Cientifico cientifico = (Cientifico) cb_cientifico.getSelectedItem();
             hilo = new HiloProgressBar(pgr_tiempo, planeta1, planeta2, cientifico);
             hilo.start();
+            guardarCientifico();
         }
         
     }//GEN-LAST:event_bt_colisionarMouseClicked
@@ -252,11 +256,11 @@ public class Principal extends javax.swing.JFrame {
     
     public void cientificoArbol(){
         try{
-        Cientifico cientifico = (Cientifico) cb_cientifico.getSelectedItem();
-        
-        DefaultTreeModel modelo = (DefaultTreeModel)jt_planetas.getModel();
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Planetas");
-        root.removeAllChildren();
+            Cientifico cientifico = (Cientifico) cb_cientifico.getSelectedItem();
+
+            DefaultTreeModel modelo = (DefaultTreeModel)jt_planetas.getModel();
+            DefaultMutableTreeNode root = new DefaultMutableTreeNode("Planetas");
+            root.removeAllChildren();
         for (Planeta planeta : cientifico.getPlanetas()){
             DefaultMutableTreeNode hojaPlaneta = new DefaultMutableTreeNode(planeta);
             root.add(hojaPlaneta);

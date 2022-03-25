@@ -242,8 +242,9 @@ public class Principal extends javax.swing.JFrame {
         try{
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("./cientificos"));
             for (Cientifico cientifico : cientificos)
-                os.writeObject(cientificos);
+                os.writeObject(cientifico);
         }catch(Exception ex){
+            System.out.println(ex);
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
         }
     }
@@ -255,6 +256,7 @@ public class Principal extends javax.swing.JFrame {
             while( (cientifico = (Cientifico)os.readObject()) != null )
                 cientificos.add(cientifico);
         }catch(Exception ex){
+            System.out.println(ex);
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
         }
     }

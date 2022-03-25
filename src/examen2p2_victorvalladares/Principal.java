@@ -185,11 +185,15 @@ public class Principal extends javax.swing.JFrame {
     private void ch_publicosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ch_publicosItemStateChanged
         if (ch_publicos.isSelected()){
             publicoArbol();
+            
         }
     }//GEN-LAST:event_ch_publicosItemStateChanged
 
     private void cb_cientificoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_cientificoItemStateChanged
         cientificoArbol();
+        if (ch_publicos.isSelected()){
+            ch_publicos.setSelected(false);
+        }
     }//GEN-LAST:event_cb_cientificoItemStateChanged
 
     private void item_planeta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_planeta1ActionPerformed
@@ -224,8 +228,6 @@ public class Principal extends javax.swing.JFrame {
             pgr_tiempo.setMaximum(distancia1); 
             Cientifico cientifico = (Cientifico) cb_cientifico.getSelectedItem();
             hilo = new HiloProgressBar(pgr_tiempo, planeta1, planeta2, cientifico);
-            
-
             hilo.start();
         }
         

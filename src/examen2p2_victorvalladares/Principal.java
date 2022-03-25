@@ -5,6 +5,10 @@
  */
 package examen2p2_victorvalladares;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -24,6 +28,8 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         planetasBase();
+        cargarCientificos();
+        actualizarCB();
     }
 
     public void planetasBase(){
@@ -163,6 +169,7 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Se ha creado el cientifico");
             tf_nombre.setText(null);
             actualizarCB();
+            guardarCientifico();
         }
     }//GEN-LAST:event_bt_crearMouseClicked
 
@@ -230,6 +237,28 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error: El cientifico no tiene planetas");
         }
     }
+    
+    private void guardarCientifico(){
+        try{
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("./cientificos"));
+            for (Cientifico cientifico : cientificos)
+                os.writeObject(cientificos);
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
+        }
+    }
+    
+    private void cargarCientificos(){
+        try{
+            ObjectInputStream os = new ObjectInputStream(new FileInputStream("./cientificos"));
+            Cientifico cientifico;
+            while( (cientifico = (Cientifico)os.readObject()) != null )
+                cientificos.add(cientifico);
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error");
+        }
+    }
+    
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
